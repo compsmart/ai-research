@@ -28,7 +28,8 @@ def set_seed(s):
 
 
 def run_control(K, model, task, max_steps=2000, batch_size=64,
-                shuffle_labels=False, random_inputs=False, disable_writes=False):
+                shuffle_labels=False, random_inputs=False, disable_writes=False,
+                log_every=500, label=""):
     opt  = optim.Adam(model.parameters(), lr=1e-3)
     crit = nn.CrossEntropyLoss()
     recent = []
@@ -62,6 +63,9 @@ def run_control(K, model, task, max_steps=2000, batch_size=64,
         recent.append(acc)
         if len(recent) > 200:
             recent.pop(0)
+        if log_every and step % log_every == 0:
+            print("    [{}/{}] {} loss={:.4f} acc={:.3f}".format(
+                step, max_steps, label, loss.item(), acc), flush=True)
 
     return float(np.mean(recent[-200:]))
 
@@ -94,15 +98,16 @@ def main():
             accs_lstm = []
             accs_amm  = []
             for s in range(args.seeds):
+                print(f"  {ctrl_name} seed={s}", flush=True)
                 set_seed(s)
                 lstm = FixedLSTM(task.input_dim, task.output_dim, hidden_dim=64)
                 amm  = AdaptiveModelV3(task.input_dim, task.output_dim,
                                        hidden_dim=64, key_dim=32)
                 acc_l = run_control(K, lstm, task, max_steps=args.steps,
-                                    **ctrl_kwargs)
+                                    label=f"LSTM/{ctrl_name}", **ctrl_kwargs)
                 set_seed(s)
                 acc_a = run_control(K, amm,  task, max_steps=args.steps,
-                                    **ctrl_kwargs)
+                                    label=f"AMM/{ctrl_name}", **ctrl_kwargs)
                 accs_lstm.append(acc_l)
                 accs_amm.append(acc_a)
 

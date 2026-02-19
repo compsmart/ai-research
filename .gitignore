@@ -53,3 +53,4 @@ mlruns/
 # Misc
 *.log
 *.tmp
+.env

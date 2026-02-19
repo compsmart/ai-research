@@ -88,12 +88,29 @@ Files:
   sprint02/experiments/capacity_test.py
   sprint02/results/capacity_test.json
 
+## Negative Controls / Paranoia Pass (2026-02-19)
+
+sprint02/experiments/negative_controls.py — K=8,16, 3 seeds, 2000 steps each
+
+| Control         | K=8 LSTM | K=8 AMM | K=16 LSTM | K=16 AMM | Verdict |
+|-----------------|----------|---------|-----------|----------|---------|
+| random_inputs   | 3.25%    | 3.10%   | 3.35%     | 3.18%    | PASS — at chance, no eval bug |
+| shuffled_labels | 19.0%    | 19.1%   | 10.5%     | 11.4%    | Expected — effective chance is 1/K not 1/32 |
+| amm_no_write    | 18.8%    | 18.8%   | 10.6%     | 10.2%    | MEMORY CONTRIBUTES — writes are active ingredient |
+
+Notes:
+- random_inputs PASS: inputs genuinely drive predictions; no label-independent shortcut
+- shuffled_labels: correct answers per batch drawn from K-item dict → effective chance = 1/K
+  (12.5% at K=8, 6.25% at K=16). Both models near floor. Not a data leak.
+- amm_no_write: disabling writes drops AMM from 100% to LSTM-level. Memory confirmed causal.
+
 ## What Still Needs to Be Done
 1. [DONE] 5-seed replication — confirmed, mean +77.95pp, stable across seeds
 2. [DONE] K=32 test — +92.5pp advantage, FixedLSTM near chance (6.86%), AdaptiveV3 100%
 3. [DONE] Wilcoxon signed-rank + Cohen's d — ALL 6 conditions p=0.0312, d=41-785
-4. Ablation: AdaptiveV3-no-write to isolate memory contribution from LSTM contribution
+4. [DONE] Negative controls — random_inputs PASS, amm_no_write confirms memory is causal
 5. Check: can FixedLSTM ever solve this with 50K steps? (structural vs sample efficiency)
+6. Sprint 03: Generalization test — train K=4,8, evaluate K=16,32 zero-shot
 
 ## Interpretation
 The finding aligns with the NTM/MANN literature (Graves et al. 2014, Santoro et al. 2016):

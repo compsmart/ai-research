@@ -30,7 +30,8 @@ def set_seed(s):
     random.seed(s); np.random.seed(s); torch.manual_seed(s)
 
 
-def run(K, hidden_dim, model_cls, max_steps=5000, batch_size=64, lr=1e-3, seed=0):
+def run(K, hidden_dim, model_cls, max_steps=5000, batch_size=64, lr=1e-3, seed=0,
+        log_every=500, label=None):
     set_seed(seed)
     task = VariableRecall(K=K, vocab_size=32, key_dim=32, val_dim=32)
     if model_cls == FixedLSTM:
@@ -41,6 +42,7 @@ def run(K, hidden_dim, model_cls, max_steps=5000, batch_size=64, lr=1e-3, seed=0
     opt  = optim.Adam(model.parameters(), lr=lr, weight_decay=0)
     crit = nn.CrossEntropyLoss()
     recent = []
+    prefix = label or "{}".format(model_cls.__name__)
     for step in range(1, max_steps + 1):
         model.train()
         x, y = task.generate_batch(batch_size)
@@ -54,6 +56,9 @@ def run(K, hidden_dim, model_cls, max_steps=5000, batch_size=64, lr=1e-3, seed=0
         recent.append(acc)
         if len(recent) > 200:
             recent.pop(0)
+        if log_every and step % log_every == 0:
+            print("  [{}/{}] {} loss={:.4f} acc={:.3f}".format(
+                step, max_steps, prefix, loss.item(), acc), flush=True)
     return float(np.mean(recent[-200:]))
 
 

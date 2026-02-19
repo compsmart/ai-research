@@ -42,8 +42,12 @@ def main():
             lstm_accs = []
             amm_accs  = []
             for s in range(args.seeds):
-                lstm_acc = run(K, hd, FixedLSTM,       max_steps=args.steps, seed=s)
-                amm_acc  = run(K, hd, AdaptiveModelV3, max_steps=args.steps, seed=s)
+                print(f"  K={K} hd={hd} seed={s} LSTM:", flush=True)
+                lstm_acc = run(K, hd, FixedLSTM,       max_steps=args.steps, seed=s,
+                               label=f"LSTM K={K} hd={hd} s={s}")
+                print(f"  K={K} hd={hd} seed={s} AMM:", flush=True)
+                amm_acc  = run(K, hd, AdaptiveModelV3, max_steps=args.steps, seed=s,
+                               label=f"AMM  K={K} hd={hd} s={s}")
                 lstm_accs.append(lstm_acc)
                 amm_accs.append(amm_acc)
                 print(f"  K={K} hd={hd} seed={s}: LSTM={lstm_acc:.4f}  AMM={amm_acc:.4f}  delta={amm_acc-lstm_acc:+.4f}", flush=True)
