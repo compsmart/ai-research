@@ -1,0 +1,85 @@
+# Adaptive Modular Memory (AMM) — Sprint 01 Configuration
+# All hyperparameters documented here. Undocumented defaults = irreproducible.
+
+# Memory Bank
+memory:
+  max_slots: 100          # Hard cap on active slots; prevents explosion
+  d_key: 32               # Key dimension for cosine similarity read
+  d_val: 64               # Value dimension stored per slot
+  temp: 0.1               # Softmax temperature for attention (lower = sharper)
+
+  # Write trigger
+  error_threshold: 0.5    # Grow if loss > error_threshold * running_mean_loss
+
+  # Usage EMA and pruning
+  usage_ema_decay: 0.95   # Decay for exponential moving average of slot usage
+  min_usage: 0.01         # Prune slots below this usage EMA
+  min_age: 50             # Protect slots younger than this (steps)
+  prune_every: 100        # Steps between prune passes
+
+  # Slot merging
+  merge_threshold: 0.95   # Cosine similarity threshold to trigger merge
+  merge_every: 1000       # Steps between merge passes
+
+  # Write soft-update rate
+  write_lr: 0.1           # Soft-update coefficient for existing slot values
+
+# Base Network (LSTM encoder for within-episode memory; MLP is also supported)
+model:
+  hidden_dim: 128         # Hidden units (LSTM hidden state / MLP width)
+  n_layers: 2             # Number of MLP layers (unused for LSTM variant)
+  dropout: 0.0            # Dropout probability (0 = disabled)
+  encoder: lstm           # Encoder type: "lstm" (default) or "mlp"
+
+# Training
+training:
+  lr: 1.0e-3              # Adam learning rate
+  weight_decay: 1.0e-5    # L2 regularization
+  batch_size: 32          # Training batch size
+  max_steps: 5000         # Maximum training steps per run
+  eval_every: 100         # Evaluate every N steps
+  log_every: 100          # Log metrics every N steps
+  loss_window: 100        # Window for running mean loss computation
+  grad_clip: 5.0          # Gradient clipping norm
+
+# Task: Associative Recall
+associative_recall:
+  n_values: 8             # Default N key-value pairs (difficulty ladder: 4,8,16,32)
+  vocab_size: 32          # Size of key/value vocabulary (must be <= key_dim and val_dim)
+  key_dim: 32             # One-hot key representation dimension (>= vocab_size, >= max N)
+  val_dim: 32             # One-hot value representation dimension
+
+# Task: Copy Task
+copy_task:
+  seq_len: 10             # Default sequence length (difficulty ladder: 5,10,20,50)
+  vocab_size: 8           # Number of distinct symbols (plus separator)
+
+# Experiment
+experiment:
+  seeds: [0, 1, 2, 3, 4]  # 5 seeds for all runs
+  difficulty_n: [4, 8, 16, 32]   # Associative recall difficulty ladder
+  difficulty_l: [5, 10, 20, 50]  # Copy task difficulty ladder
+  results_dir: "results"
+
+# NTM-lite baseline
+ntm_lite:
+  n_slots: 20             # Fixed slot count
+  d_key: 32
+  d_val: 64
+  temp: 0.1
+
+# Transformer baseline
+transformer:
+  n_heads: 2
+  n_layers: 2
+  d_model: 64
+  d_ff: 128
+  dropout: 0.1
+
+# Gate thresholds (automated pass/fail)
+gates:
+  gate1_max_final_loss: 0.1
+  gate1_max_grad_norm: 10.0
+  gate2_min_acc_ratio: 0.95   # Static memory must be >= 95% of best baseline acc
+  gate3_max_late_slot_change: 0.05  # <5% slot change in last 20% of training
+  reproducibility_max_cv: 0.10      # Coefficient of variation < 10%

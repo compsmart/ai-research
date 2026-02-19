@@ -1,0 +1,73 @@
+{
+  "cfg": {
+    "memory": {
+      "max_slots": 100,
+      "d_key": 32,
+      "d_val": 32,
+      "temp": 0.1,
+      "novelty_threshold": 0.5,
+      "loss_floor": 0.3,
+      "usage_ema_decay": 0.95,
+      "min_usage": 0.01,
+      "min_age": 50,
+      "prune_every": 100,
+      "merge_threshold": 0.95,
+      "merge_every": 1000,
+      "write_lr": 0.3
+    },
+    "model": {
+      "hidden_dim": 128,
+      "encoder": "lstm"
+    },
+    "training": {
+      "lr": 0.0005,
+      "weight_decay": 1e-05,
+      "batch_size": 32,
+      "max_steps": 10000,
+      "eval_every": 200,
+      "log_every": 200,
+      "loss_window": 200,
+      "grad_clip": 5.0
+    },
+    "curriculum_recall": {
+      "K": 8,
+      "n_shown": 4,
+      "vocab_size": 32,
+      "key_dim": 32,
+      "val_dim": 32,
+      "concept_seed": 0
+    },
+    "experiment": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "K_values": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "n_shown_mode": "half",
+      "results_dir": "results"
+    },
+    "ntm_lite": {
+      "n_slots": 20,
+      "d_key": 32,
+      "d_val": 32,
+      "temp": 0.1
+    },
+    "gates": {
+      "gate1_max_final_loss": 0.5,
+      "gate1_max_grad_norm": 10.0,
+      "gate2_min_acc_ratio": 0.95,
+      "gate3_max_late_slot_change": 0.1,
+      "reproducibility_max_cv": 0.15
+    }
+  },
+  "task_K": 8,
+  "seed": 1
+}

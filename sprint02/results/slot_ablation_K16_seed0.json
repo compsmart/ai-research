@@ -1,0 +1,213 @@
+{
+  "K": 16,
+  "seed": 0,
+  "steps": 922,
+  "final_acc": 0.990625,
+  "active_slots": 13,
+  "alignment": {
+    "0": {
+      "concept_key": 28,
+      "concept_val": 6,
+      "cosine_sim": 0.6945
+    },
+    "1": {
+      "concept_key": 4,
+      "concept_val": 30,
+      "cosine_sim": 0.5203
+    },
+    "2": {
+      "concept_key": 9,
+      "concept_val": 30,
+      "cosine_sim": 0.6242
+    },
+    "3": {
+      "concept_key": 24,
+      "concept_val": 18,
+      "cosine_sim": 0.5583
+    },
+    "4": {
+      "concept_key": 6,
+      "concept_val": 20,
+      "cosine_sim": 0.6396
+    },
+    "5": {
+      "concept_key": 1,
+      "concept_val": 9,
+      "cosine_sim": 0.6202
+    },
+    "6": {
+      "concept_key": 12,
+      "concept_val": 21,
+      "cosine_sim": 0.5715
+    },
+    "7": {
+      "concept_key": 31,
+      "concept_val": 8,
+      "cosine_sim": 0.4957
+    },
+    "8": {
+      "concept_key": 11,
+      "concept_val": 22,
+      "cosine_sim": 0.6037
+    },
+    "9": {
+      "concept_key": 30,
+      "concept_val": 6,
+      "cosine_sim": 0.6068
+    },
+    "10": {
+      "concept_key": 8,
+      "concept_val": 19,
+      "cosine_sim": 0.6062
+    },
+    "11": {
+      "concept_key": 13,
+      "concept_val": 16,
+      "cosine_sim": 0.5143
+    },
+    "12": {
+      "concept_key": 25,
+      "concept_val": 13,
+      "cosine_sim": 0.6568
+    }
+  },
+  "ablation": {
+    "0": {
+      "aligned_concept": 28,
+      "cosine_sim": 0.6945,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "1": {
+      "aligned_concept": 4,
+      "cosine_sim": 0.5203,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "2": {
+      "aligned_concept": 9,
+      "cosine_sim": 0.6242,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "3": {
+      "aligned_concept": 24,
+      "cosine_sim": 0.5583,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "4": {
+      "aligned_concept": 6,
+      "cosine_sim": 0.6396,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "5": {
+      "aligned_concept": 1,
+      "cosine_sim": 0.6202,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "6": {
+      "aligned_concept": 12,
+      "cosine_sim": 0.5715,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "7": {
+      "aligned_concept": 31,
+      "cosine_sim": 0.4957,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "8": {
+      "aligned_concept": 11,
+      "cosine_sim": 0.6037,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "9": {
+      "aligned_concept": 30,
+      "cosine_sim": 0.6068,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "10": {
+      "aligned_concept": 8,
+      "cosine_sim": 0.6062,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "11": {
+      "aligned_concept": 13,
+      "cosine_sim": 0.5143,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    },
+    "12": {
+      "aligned_concept": 25,
+      "cosine_sim": 0.6568,
+      "baseline_acc_aligned": 1.0,
+      "post_ablation_acc": 1.0,
+      "aligned_drop": 0.0,
+      "mean_other_drop": 0.0,
+      "specificity": 0.0
+    }
+  },
+  "baseline_accuracy": {
+    "24": 1.0,
+    "31": 1.0,
+    "28": 1.0,
+    "13": 1.0,
+    "1": 1.0,
+    "8": 1.0,
+    "16": 1.0,
+    "15": 1.0,
+    "12": 1.0,
+    "9": 1.0,
+    "30": 1.0,
+    "11": 1.0,
+    "18": 1.0,
+    "6": 1.0,
+    "25": 1.0,
+    "4": 1.0
+  },
+  "mean_specificity": 0.0,
+  "verdict": "DISTRIBUTED: Slots do not specialize. Memory not interpretable."
+}

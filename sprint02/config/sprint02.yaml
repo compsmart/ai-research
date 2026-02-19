@@ -1,0 +1,79 @@
+# Adaptive Modular Memory — Sprint 02 Configuration
+# Changes from sprint01:
+#   - Task: CurriculumRecall (fixed concept dict, partial cue)
+#   - Trigger: novelty-based (max_attn < threshold) instead of loss-relative
+#   - d_val = 32 (matches output_dim; no padding zeros in slot values)
+#   - hidden_dim: 128 (LSTM hidden state)
+#   - loss_floor: replaces error_threshold (absolute, not relative to running mean)
+
+# Memory Bank v2
+memory:
+  max_slots: 100
+  d_key: 32
+  d_val: 32              # matches val_dim — slot values are directly interpretable
+
+  temp: 0.1              # attention temperature (lower = sharper)
+
+  # Novelty trigger (PRIMARY — replaces sprint01 error_threshold)
+  novelty_threshold: 0.5 # grow when max_cos < this (raw cosine sim, no good slot match)
+  loss_floor: 0.3        # also require loss > this (don't grow when already correct)
+
+  # Usage EMA and pruning
+  usage_ema_decay: 0.95
+  min_usage: 0.01
+  min_age: 50
+  prune_every: 100
+
+  # Merging
+  merge_threshold: 0.95
+  merge_every: 1000
+
+  # Soft-update rate for best-matching slot
+  write_lr: 0.3          # higher than sprint01; values are semantically meaningful
+
+# Base Network
+model:
+  hidden_dim: 128
+  encoder: lstm
+
+# Training
+training:
+  lr: 5.0e-4             # slightly lower than sprint01; LSTM is slower to converge
+  weight_decay: 1.0e-5
+  batch_size: 32
+  max_steps: 10000       # longer: curriculum task converges slower
+  eval_every: 200
+  log_every: 200
+  loss_window: 200
+  grad_clip: 5.0
+
+# Curriculum Recall Task
+curriculum_recall:
+  K: 8                   # default number of fixed concepts
+  n_shown: 4             # pairs shown per episode (< K); default = K // 2
+  vocab_size: 32
+  key_dim: 32
+  val_dim: 32
+  concept_seed: 0        # seed for the fixed concept dictionary
+
+# Difficulty ladder
+experiment:
+  seeds: [0, 1, 2, 3, 4]
+  K_values: [4, 8, 16, 32]   # concept set sizes (replaces N in sprint01)
+  n_shown_mode: half          # "half" (K//2), "zero" (pure memory), or explicit int
+  results_dir: "results"
+
+# NTM-lite baseline (same architecture, growth disabled)
+ntm_lite:
+  n_slots: 20
+  d_key: 32
+  d_val: 32
+  temp: 0.1
+
+# Gate thresholds
+gates:
+  gate1_max_final_loss: 0.5    # curriculum is harder; looser convergence criterion
+  gate1_max_grad_norm: 10.0
+  gate2_min_acc_ratio: 0.95
+  gate3_max_late_slot_change: 0.10   # allow 10% oscillation (harder task)
+  reproducibility_max_cv: 0.15

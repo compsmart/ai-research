@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Model checkpoints and large artifacts
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.bin
+
+# Raw JSONL logs (large)
+**/*.jsonl
+
+# Keep result JSON summaries and .gitkeep
+!**/results/*.json
+!**/results/.gitkeep
+!**/results_*/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# wandb / mlflow
+wandb/
+mlruns/
+
+# Misc
+*.log
+*.tmp
